@@ -8,7 +8,9 @@ FPS = 60
 WHITE = (255, 255, 255)
 BLACK = (0,0,0)
 REDDISH = (240,55,66)
+#changed color to red
 SKY_BLUE = (255, 0, 0)
+#changed the font
 FONT_NAME = 'calibri'
 SPRITESHEET = "spritesheet_jumper.png"
 # data files
@@ -19,8 +21,9 @@ PLAYER_FRICTION = -0.12
 PLAYER_GRAV = 0.8
 PLAYER_JUMP = 20
 # game settings
-BOOST_POWER = 60
+BOOST_POWER = 20
 POW_SPAWN_PCT = 7
+COIN_SPAWN_PCT = 8
 MOB_FREQ = 5000
 PLAYER_LAYER = 2
 PLATFORM_LAYER = 1

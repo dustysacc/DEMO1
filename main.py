@@ -49,7 +49,7 @@ class Game:
         # load spritesheet image
         self.spritesheet = Spritesheet(path.join(img_dir, SPRITESHEET))       
         # load sounds
-        # great place for creating sounds: https://www.bfxr.net/
+   
         self.snd_dir = path.join(self.dir, 'snd')
         self.jump_sound = [pg.mixer.Sound(path.join(self.snd_dir, 'Jump18.wav')),
                             pg.mixer.Sound(path.join(self.snd_dir, 'Jump24.wav'))]
@@ -68,6 +68,7 @@ class Game:
         self.powerups = pg.sprite.Group()
         
         self.mob_timer = 0
+        self.coin = pg.sprite.Group()
         # add a player 1 to the group
         self.player = Player(self)
         # add mobs
@@ -137,19 +138,19 @@ class Game:
                         self.player.jumping = False
                 # scroll plats with player
 
-                #currently attempting to spawn in the platforms horizontally and also add the feature of killing them.
+ #currently attempting to spawn in the platforms horizontally and also add the feature of killing them.
 
-        if self.player.rect.top >= WIDTH / 1.5:
+        if self.player.rect.right >= WIDTH / 1.5:
             # creates slight scroll at the top based on player y velocity
             self.player.pos.x -= max(abs(self.player.vel.x), 2)
             
             for mob in self.mobs:
                 # creates slight scroll based on player y velocity
-                mob.rect.y += max(abs(self.player.vel.y), 2)
+                mob.rect.x += max(abs(self.player.vel.x), 2)
             for plat in self.platforms:
                 # creates slight scroll based on player y velocity
-                plat.rect.y += max(abs(self.player.vel.y), 2)
-                if plat.rect.top >= HEIGHT + 40:
+                plat.rect.x += max(abs(self.player.vel.x), 2)
+                if plat.rect.top >= WIDTH + 500:
                     plat.kill()
                     self.score += 10
         # if player hits a power up
@@ -157,8 +158,11 @@ class Game:
         for pow in pow_hits:
             if pow.type == 'boost':
                 self.boost_sound.play()
-                self.player.vel.y = -BOOST_POWER
+                self.player.vel.x = BOOST_POWER
                 self.player.jumping = False
+    
+        for coin in self.coin:
+            coin.rect.x -= max(abs(self.player.vel.x), 2)
         
         # Die!
         if self.player.rect.bottom > HEIGHT:
@@ -169,16 +173,23 @@ class Game:
         if len(self.platforms) == 0:
             self.playing = False
         # generate new random platforms
-        while len(self.platforms) < 6:
-            width = random.randrange(50, 100)
+        while len(self.platforms) < 20:
             ''' removed widths and height params to allow for sprites'''
             # changed due to passing into groups through sprites lib file
-            # p = Platform(self, random.randrange(0,WIDTH-width), 
-            #                 random.randrange(-75, -30))
-            Platform(self, random.randrange(0,WIDTH-width), 
-                            random.randrange(-75, -30))
+            Platform(self, random.randrange(100,1000), 
+                            random.randrange(-1, 1000))
+                             
             # self.platforms.add(p)
             # self.all_sprites.add(p)
+
+        #if player gets coin
+        coin_hits = pg.sprite.spritecollide(self.player, self.coin, True)
+        for coin in coin_hits:
+            if coin.type == 'coin':
+                self.boost_sound.play()
+                self.player.vel.y = -10
+                self.player.jumping = False
+                self.score += 10
     def events(self):
         for event in pg.event.get():
                 if event.type == pg.QUIT:

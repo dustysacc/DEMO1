@@ -95,7 +95,7 @@ class Player(Sprite):
             if self.vel.y < -5:
                 self.vel.y = -5
     def jump(self):
-        print("jump is working")
+        print("jump")
         # check pixel below
         self.rect.y += 2
         hits = pg.sprite.spritecollide(self, self.game.platforms, False)
@@ -160,6 +160,8 @@ class Platform(Sprite):
         self.rect.y = y
         if random.randrange(100) < POW_SPAWN_PCT:
             Pow(self.game, self)
+        if random.randrange(100) < COIN_SPAWN_PCT:
+            Coin(self.game, self)
 
 class Pow(Sprite):
     def __init__(self, game, plat):
@@ -182,6 +184,26 @@ class Pow(Sprite):
         if not self.game.platforms.has(self.plat):
             self.kill()
 
+class Coin(Sprite):
+    def __init__(self, game, plat):
+        # allows layering in LayeredUpdates sprite group
+        self._layer = POW_LAYER
+        # add a groups property where we can pass all instances of this object into game groups
+        self.groups = game.all_sprites, game.coin
+        Sprite.__init__(self, self.groups)
+        self.game = game
+        self.plat = plat
+        self.type = random.choice(['coin'])
+        self.image = self.game.spritesheet.get_image(698, 1931, 84, 84)
+        self.image.set_colorkey(BLACK)
+        self.rect = self.image.get_rect()
+        self.rect.centerx = self.plat.rect.centerx
+        self.rect.bottom = self.plat.rect.top - 5
+    def update(self):
+        self.rect.bottom = self.plat.rect.top - 5
+        # checks to see if plat is in the game's platforms group so we can kill the powerup instance
+        if not self.game.platforms.has(self.plat):
+            self.kill()
 class Mob(Sprite):
     def __init__(self, game):
         # allows layering in LayeredUpdates sprite group

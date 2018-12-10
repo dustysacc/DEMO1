@@ -25,7 +25,7 @@
 	<SubTexture name="coin_gold.png" x="244" y="1981" width="61" height="61"/>
 	<SubTexture name="coin_silver.png" x="307" y="1981" width="61" height="61"/>
 	<SubTexture name="flame.png" x="900" y="1733" width="41" height="80"/>
-	<SubTexture name="flyMan_fly.png" x="566" y="510" width="122" height="139"/>
+	<SubTexture name="flyMan_fly.png" x="566" y="510" width690="122" height="139"/>
 	<SubTexture name="flyMan_jump.png" x="568" y="1534" width="122" height="135"/>
 	<SubTexture name="flyMan_stand.png" x="568" y="1671" width="122" height="139"/>
 	<SubTexture name="flyMan_still_fly.png" x="692" y="1667" width="120" height="132"/>
