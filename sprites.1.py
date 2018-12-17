@@ -1,6 +1,5 @@
-# sprite classes for game
-# i used some ideas from CodePylet https://www.youtube.com/watch?v=osDofIdja6s&t=1038s
-# i also borrowed pretty much all of this from kids can code - thanks!
+# this file was created by jack Armanini 
+#used code from Mr. Cozort, and there Kids can Code
 
 import pygame as pg
 from pygame.sprite import Sprite
